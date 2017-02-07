@@ -12,18 +12,42 @@ knitr::opts_knit$set(root.dir = "../")
 ```
 
 ## Calculating the betas for specified R0
-
+First we need to load all of the network functions, and define some key parameters to be used for all of the network structures.
 ```{r}
 source("R/network_fxns.R")
-
-er_dist <- get_er_deg_dist(mean_deg = 10, n = 10000)
-
 gamma_vax <- 1 / 5
-
 desired_r0 <- 1
+mean_deg <- 10
+num_nodes <- 10000
+```
+Once those are defines, we can begin calculating the beta parameters for each network.
 
+### Erdos-Renyi Network
+The er network is simple, and you simply can get the degree distribution and directly calculate the beta based on the R0. The mean degree can be entered into the simulation function as is, so nothing else is needed.
+```{r}
+er_dist <- get_er_deg_dist(mean_deg = mean_deg, n = num_nodes)
 getBeta(r_not = desired_r0, deg_dist = er_dist, gamma = gamma_vax)
 
+```
+
+### Exponential Network
+The exponential network definition isn't as simple, since you will need to solve for both the exponential network rate parameter, and also the beta, making it a two step process.
+```{r}
+## First calculate the exponential rate that needs to be inputted into simulation function
+get_exp_rate(mean_deg, num_nodes)
+
+## Get the degree distribution and solve for the beta
+exp_dist <- get_exp_deg_dist(mean_deg = mean_deg, n = num_nodes)
+getBeta(r_not = desired_r0, deg_dist = exp_dist, gamma = gamma_vax)
 
 ```
+
+
+### Uniform Network
+```{r}
+unif_dist <- get_unif_deg_dist(mean_deg=mean_deg, n=num_nodes)
+getBeta(r_not = desired_r0, deg_dist = unif_dist, gamma = gamma_vax)
+
+```
+
 

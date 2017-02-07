@@ -21,6 +21,26 @@ get_er_deg_dist <- function(mean_deg, n = 10000){
   dpois(x = degrees, lambda=mean_deg)
 }
 
+get_unif_deg_dist <- function(mean_deg, n = 10000){
+  degrees <- rep(0,10000)
+  degrees[mean_deg] <- 1
+  degrees
+}
+
+get_exp_rate <- function(desired_mean, n){
+  exp_mean <- function(rate, desired_mean, degs=seq(1,10000)){
+    sum(seq_along(degs) * normalize(dexp(rate = rate, x = degs))) - desired_mean
+  }
+  degrees <- seq(1, n)
+  uniroot(exp_mean, interval = c(1/1000,1), desired_mean=desired_mean, degs=degrees)$root
+}
+
+get_exp_deg_dist <- function(mean_deg, n = 10000){
+  degrees <- seq(1, n)
+  exp_rate <- get_exp_rate(mean_deg, n)
+  normalize(dexp(rate = exp_rate, x = degrees))
+}
+
 normalize <- function(values){
   ## Normalizes a degree distribution
   values/sum(values,na.rm = T)
