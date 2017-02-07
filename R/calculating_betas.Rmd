@@ -1,0 +1,29 @@
+---
+title: "Calculating betas for rnots"
+author: "Spencer Fox"
+date: "2/7/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+knitr::opts_knit$set(root.dir = "../")
+
+```
+
+## Calculating the betas for specified R0
+
+```{r}
+source("R/network_fxns.R")
+
+er_dist <- get_er_deg_dist(mean_deg = 10, n = 10000)
+
+gamma_vax <- 1 / 5
+
+desired_r0 <- 1
+
+getBeta(r_not = desired_r0, deg_dist = er_dist, gamma = gamma_vax)
+
+
+```
+
