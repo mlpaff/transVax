@@ -38,7 +38,7 @@ get_exp_rate(mean_deg, num_nodes)
 
 ## Get the degree distribution and solve for the beta
 exp_dist <- get_exp_deg_dist(mean_deg = mean_deg, n = num_nodes)
-getBeta(r_not = desired_r0, deg_dist = exp_dist, gamma = gamma_vax)
+getBetaVec(r_not = seq(0.05, 1, by=0.05), deg_dist = exp_dist, gamma = gamma_vax)
 
 ```
 

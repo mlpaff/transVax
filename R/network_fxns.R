@@ -90,7 +90,7 @@ getBeta <- function(r_not, deg_dist, gamma=1/3.38, justRoot=TRUE){
   }
 }
 
-
+getBetaVec <- Vectorize(getBeta, vectorize.args = c("r_not"))
 
 ############################################################
 ## Functions not used right now
