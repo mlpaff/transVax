@@ -20,7 +20,7 @@ network <- "exp"
 gamma_vax <- 1 / 5
 gamma_disease <- 1 / 5
 init_vax <- 5000
-init_inf <- 1
+init_inf <- 50
 
 ####################################
 ## vaccination type
