@@ -28,19 +28,17 @@ get_all_final_sizes <- function(list_mat){
 
 calc_prop_extinct <- function(df, epi_threshold = 500){
   # Calculates the proportion of simulations that resulted in extinction of the epidemic
-  1 - sum(df$disease >= epi_threshold)/nrow(df)
+  1 - sum(df$disease >= epi_threshold, na.rm=T)/nrow(df[!is.na(df$disease), ])
 }
-# get_all_final_sizes(epidemicRuns) %>% calc_prop_extinct()
 
 prop_extinct <- function(file){
   # load file and return data frame with beta_vax and calculation for proportion of simulations ending in extinction
   load(file)
-  data.frame(beta=params['beta_vax'], proportion=na.omit(get_all_final_sizes(epidemicRuns)) %>% calc_prop_extinct())
+  data.frame(beta=params['beta_vax'], proportion=get_all_final_sizes(epidemicRuns) %>% calc_prop_extinct())
 }
 
-files = list.files('data/transVax_data/', pattern='.Rdata', full.names=TRUE)
+files = list.files('data/transVax_data_init_dis_50/', pattern='.Rdata', full.names=TRUE) # hard coded path to directory
+props <- map(files, prop_extinct) %>% bind_rows()
 
-props <- lapply(files, 'prop_extinct') %>% bind_rows()
-
-props %>% ggplot(aes(x=beta_vax, y=proportion)) + geom_point()
+props %>% mutate(R_0=seq(0.05:1, by=0.05)) %>% ggplot(aes(x=R_0, y=proportion)) + geom_point() + ylim(0,1)
 
