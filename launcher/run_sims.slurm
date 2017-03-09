@@ -17,7 +17,7 @@
 #SBATCH -n 20                  # Total number of tasks
 #SBATCH -p normal          # Queue name
 #SBATCH -o trans.o%j      # Name of stdout output file (%j expands to jobid)
-#SBATCH -t 12:00:00            # Run time (hh:mm:ss)
+#SBATCH -t 2:00:00            # Run time (hh:mm:ss)
 #SBATCH --mail-user=spncrfx@gmail.com
 #SBATCH --mail-type=all  # email me all messages
 #      <------------ Account String ------------>
